@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,9 +48,9 @@ namespace WpfApp3
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (textBox.FontWeight == FontWeights.Normal)
-            textBox.FontWeight = FontWeights.Bold;
+                textBox.FontWeight = FontWeights.Bold;
             else
-            textBox.FontWeight = FontWeights.Normal;
+                textBox.FontWeight = FontWeights.Normal;
         }
 
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
@@ -62,7 +64,7 @@ namespace WpfApp3
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             if (textBox.TextDecorations.Count == 0)
-            textBox.TextDecorations.Add(TextDecorations.Underline);
+                textBox.TextDecorations.Add(TextDecorations.Underline);
             else
                 textBox.TextDecorations.Remove(TextDecorations.Underline[0]);
         }
@@ -72,7 +74,7 @@ namespace WpfApp3
             if (textBox != null)
             {
                 textBox.Foreground = Brushes.Black;
-            }        
+            }
         }
 
         private void RadioButton_Checked_1(object sender, RoutedEventArgs e)
@@ -81,6 +83,31 @@ namespace WpfApp3
             {
                 textBox.Foreground = Brushes.Red;
             }
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Текстовые файлы (*.txt)|*.txt|Все файлы (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                textBox.Text = File.ReadAllText(openFileDialog.FileName);
+            }
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Текстовые файлы (*.txt)|*.txt|Все файлы (*.*)|*.*";
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                File.WriteAllText(saveFileDialog.FileName, textBox.Text);
+            }
+        }
+
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }
