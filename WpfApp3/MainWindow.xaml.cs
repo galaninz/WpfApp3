@@ -85,17 +85,24 @@ namespace WpfApp3
             }
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void ExitExicuted(object sender, ExecutedRoutedEventArgs e)
         {
+            Application.Current.Shutdown();
+        }
+
+        private void OpenExicuted(object sender, ExecutedRoutedEventArgs e)
+        {
+          
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Текстовые файлы (*.txt)|*.txt|Все файлы (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
             {
                 textBox.Text = File.ReadAllText(openFileDialog.FileName);
             }
+            MessageBox.Show("Документ открыт");
         }
 
-        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        private void SaveExicuted(object sender, ExecutedRoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Текстовые файлы (*.txt)|*.txt|Все файлы (*.*)|*.*";
@@ -103,11 +110,19 @@ namespace WpfApp3
             {
                 File.WriteAllText(saveFileDialog.FileName, textBox.Text);
             }
+            MessageBox.Show("Документ сохранен");
         }
 
-        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        private void ExitCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            if(textBox.Text.Length==0)
+            {
+                e.CanExecute = true;
+            }
+            else
+            {
+                e.CanExecute = false;
+            }
         }
     }
 }
