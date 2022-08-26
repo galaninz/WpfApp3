@@ -22,10 +22,6 @@ namespace WpfApp3
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -92,7 +88,7 @@ namespace WpfApp3
 
         private void OpenExicuted(object sender, ExecutedRoutedEventArgs e)
         {
-          
+
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Текстовые файлы (*.txt)|*.txt|Все файлы (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
@@ -115,7 +111,7 @@ namespace WpfApp3
 
         private void ExitCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            if(textBox.Text.Length==0)
+            if (textBox.Text.Length == 0)
             {
                 e.CanExecute = true;
             }
@@ -123,6 +119,14 @@ namespace WpfApp3
             {
                 e.CanExecute = false;
             }
+        }
+
+        private void styleBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Application.Current.Resources.MergedDictionaries.Clear();
+            Uri uri = new Uri(styleBox.SelectedIndex==0? "Light.xaml":"Dark.xaml", UriKind.Relative);
+            ResourceDictionary resource = Application.LoadComponent(uri) as ResourceDictionary;         
+            Application.Current.Resources.MergedDictionaries.Add(resource);
         }
     }
 }
